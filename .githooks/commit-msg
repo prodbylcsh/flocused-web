@@ -1,0 +1,8 @@
+#!/bin/sh
+
+PATTERN='co-authored-by[[:space:]]*:|claude-session[[:space:]]*:|generated (with|by)[[:space:]]+\[?(claude|codex|openai|anthropic|chatgpt|ai)'
+
+if grep -Eiq "$PATTERN" "$1"; then
+  echo "ERROR: AI attribution is prohibited in commit messages."
+  exit 1
+fi

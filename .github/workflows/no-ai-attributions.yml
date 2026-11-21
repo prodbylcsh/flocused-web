@@ -1,0 +1,48 @@
+name: No AI Attribution
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR and commit messages
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const pattern =
+              /co-authored-by\s*:|claude-session\s*:|generated\s+(with|by)\s+\[?(claude|codex|openai|anthropic|chatgpt|ai)\b/i;
+
+            const pr = context.payload.pull_request;
+
+            const commits = await github.paginate(
+              github.rest.pulls.listCommits,
+              {
+                ...context.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+
+            const entries = [
+              ["PR title", pr.title],
+              ["PR body", pr.body || ""],
+              ...commits.map(c => [
+                `commit ${c.sha.slice(0, 7)}`,
+                c.commit.message
+              ])
+            ];
+
+            for (const [name, value] of entries) {
+              if (pattern.test(value)) {
+                core.setFailed(
+                  `Prohibited attribution in ${name}`
+                );
+              }
+            }
