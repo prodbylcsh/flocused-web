@@ -1,0 +1,491 @@
+/* ───────────────────────── The notch (web port of NotchView) ───────────────────────── */
+
+.notch {
+  --tint: #f56b2b;
+  --tint-rgb: 245, 107, 43;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--s, 1));
+  transform-origin: top center;
+  color: #fff;
+  font-family: var(--sans);
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  cursor: default;
+}
+.notch:focus-visible .notch__shadow {
+  box-shadow: 0 0 0 2px rgba(var(--tint-rgb), 0.9), 0 8px 18px rgba(0, 0, 0, 0.55);
+  opacity: 1;
+}
+
+.notch__body,
+.notch__surface {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.notch__body {
+  overflow: hidden;
+}
+.notch__base {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  transition: opacity 0.3s ease;
+}
+.notch__shadow {
+  position: absolute;
+  top: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.notch.is-raised .notch__shadow {
+  opacity: 1;
+}
+.notch[data-surface='glass'][data-mode='expanded'] .notch__shadow {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+/* Finishes of the opened panel (Surface.swift) */
+.notch__surface {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.notch[data-mode='expanded'] .notch__surface {
+  opacity: 1;
+}
+.notch[data-mode='expanded'][data-surface='glass'] .notch__base {
+  opacity: 0;
+}
+.notch__surface .grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: url('/grain.png') repeat;
+  background-size: 96px;
+  mix-blend-mode: soft-light;
+}
+[data-surface='classic'] > .notch__surface {
+  background: #000;
+}
+[data-surface='graphite'] > .notch__surface {
+  background: linear-gradient(#282828, #1b1b1b 50%, #0d0d0d);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+[data-surface='matte'] > .notch__surface {
+  background: radial-gradient(320px 200px at 50% 0, rgba(255, 255, 255, 0.03), transparent),
+    linear-gradient(#1c1c1e, #141415);
+}
+[data-surface='matte'] > .notch__surface .grain {
+  opacity: 0.5;
+}
+[data-surface='glossy'] > .notch__surface {
+  background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.07) 42%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 30%, transparent 50%),
+    linear-gradient(#1c1c1c, #050505);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.22);
+}
+[data-surface='glass'] > .notch__surface {
+  background: linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02) 50%),
+    rgba(28, 28, 32, 0.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Layers: one per mode, cross-faded while the shape springs between sizes */
+.nl {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+.nl.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.04s;
+}
+.nl--peek {
+  transform: translateX(-50%) scale(0.92);
+  transform-origin: top center;
+}
+.nl--expanded {
+  transform: translateX(-50%) scale(0.96);
+  transform-origin: top center;
+}
+.nl--peek.is-on,
+.nl--expanded.is-on {
+  transform: translateX(-50%) scale(1);
+}
+
+/* Compact: ring left, time right */
+.nl--compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+}
+.nl-ear {
+  width: 80px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.nl-ear--l {
+  padding-left: 14px;
+}
+.nl-ear--r {
+  justify-content: flex-end;
+  padding-right: 12px;
+}
+.ring {
+  width: 13px;
+  height: 13px;
+  transform: rotate(-90deg);
+}
+.ring circle {
+  fill: none;
+  stroke-width: 2.9;
+}
+.ring__track {
+  stroke: rgba(255, 255, 255, 0.13);
+}
+.ring__fill {
+  stroke: var(--tint);
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+/* Filled */
+.nl--filled {
+  overflow: hidden;
+}
+.notch[data-state='paused'] .nl--filled {
+  opacity: 0.55;
+}
+.fill__bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.22), rgba(var(--tint-rgb), 0.7));
+}
+.fill__now {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--tint);
+  box-shadow: 0 0 8px var(--tint);
+}
+.fill__mask {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  fill: #000;
+}
+
+/* Thin line */
+.line__track {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  width: 167px;
+  height: 2.5px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.line__fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--tint);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.notch[data-state='paused'] .line__fill {
+  opacity: 0.5;
+}
+
+/* Peek */
+.peek__row {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.peek__icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  color: var(--tint);
+}
+.peek__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Expanded */
+.nx-head {
+  height: 32px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.phase-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  color: rgba(255, 255, 255, 0.65);
+}
+.phase-label i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tint);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.notch[data-state='running'] .phase-label i {
+  box-shadow: 0 0 6px var(--tint);
+}
+.session-dots {
+  display: flex;
+  gap: 4px;
+}
+.session-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: width 0.42s cubic-bezier(0.3, 1.3, 0.5, 1), background 0.3s;
+}
+.session-dots i.done {
+  background: #f56b2b;
+}
+.session-dots i.current {
+  width: 14px;
+  background: rgba(245, 107, 43, 0.45);
+}
+.nx-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 26px 0;
+}
+.nx-div {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  flex: none;
+}
+
+/* The dark time screen */
+.screen {
+  position: relative;
+  flex: 1;
+  height: 62px;
+  border-radius: 14px;
+  background: #090909;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 1px 0 #000, inset 0 -1px 0 rgba(255, 255, 255, 0.09);
+}
+.screen canvas {
+  position: relative;
+  z-index: 1;
+}
+.screen__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.03), rgba(var(--tint-rgb), 0.24));
+}
+.screen__now {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--tint);
+  box-shadow: 0 0 10px rgba(var(--tint-rgb), 0.9);
+  opacity: 0;
+}
+[data-surface='glass'] .screen {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Orb buttons: ::before is the pedestal, ::after the face */
+.orb {
+  --size: 46px;
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: none;
+  color: rgba(255, 255, 255, 0.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.3, 1.6, 0.5, 1), filter 0.16s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.orb--lg {
+  --size: 54px;
+}
+.orb svg {
+  position: relative;
+  z-index: 2;
+  width: 38%;
+  height: 38%;
+  filter: drop-shadow(0 1px 0.5px rgba(0, 0, 0, 0.35));
+}
+.orb::before,
+.orb::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  transition: all 0.22s ease;
+}
+.orb::before {
+  inset: -4px;
+  z-index: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025) 50%, transparent);
+  box-shadow: 0 3.5px 7px rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  filter: blur(0.6px);
+}
+.orb::after {
+  inset: 0;
+  z-index: 1;
+}
+.orb:hover {
+  filter: brightness(1.12);
+}
+.orb:active {
+  transform: scale(0.93) translateY(1px);
+}
+.orb:active::before {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.orb:focus-visible {
+  outline: 2px solid rgba(var(--tint-rgb), 0.9);
+  outline-offset: 4px;
+}
+
+/* classic */
+[data-surface='classic'] .orb::after {
+  border: calc(var(--size) * 0.09) solid #000;
+  background: linear-gradient(#333, #171717);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 2px 3px rgba(0, 0, 0, 0.7);
+}
+[data-surface='classic'] .orb--tint::after {
+  background: linear-gradient(var(--tint), rgba(var(--tint-rgb), 0.82));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 0 12px rgba(var(--tint-rgb), 0.45);
+}
+
+/* graphite */
+[data-surface='graphite'] .orb::after {
+  border: calc(var(--size) * 0.085) solid #000;
+  background: linear-gradient(#0d0d0d, #161616);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.09);
+}
+[data-surface='graphite'] .orb--tint::after {
+  background: linear-gradient(rgba(var(--tint-rgb), 0.9), var(--tint));
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.25), 0 0 12px rgba(var(--tint-rgb), 0.35);
+}
+
+/* soft matte */
+[data-surface='matte'] .orb::after {
+  background: url('/grain.png') 0 0 / 64px repeat, linear-gradient(rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.16)), #303030;
+  background-blend-mode: soft-light, normal, normal;
+  box-shadow: inset 0 0.75px 0 rgba(255, 255, 255, 0.11), inset 0 -0.75px 0 rgba(0, 0, 0, 0.25),
+    0 1px 1px rgba(0, 0, 0, 0.5), 0 4px 6px rgba(0, 0, 0, 0.35);
+}
+[data-surface='matte'] .orb--tint::after {
+  background: url('/grain.png') 0 0 / 64px repeat, linear-gradient(rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.16)), var(--tint);
+  box-shadow: inset 0 0.75px 0 rgba(255, 255, 255, 0.2), 0 1px 1px rgba(0, 0, 0, 0.5), 0 4px 6px rgba(0, 0, 0, 0.35),
+    0 0 14px rgba(var(--tint-rgb), 0.22);
+}
+[data-surface='matte'] .orb:active::after {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0.5px 0.5px rgba(0, 0, 0, 0.35);
+}
+
+/* glossy */
+[data-surface='glossy'] .orb::after {
+  border: calc(var(--size) * 0.07) solid #000;
+  background: radial-gradient(60% 36% at 50% 22%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 100%),
+    linear-gradient(transparent, rgba(0, 0, 0, 0.4)), #262626;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 3px rgba(0, 0, 0, 0.7);
+}
+[data-surface='glossy'] .orb--tint::after {
+  background: radial-gradient(60% 36% at 50% 22%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 100%),
+    linear-gradient(transparent, rgba(0, 0, 0, 0.4)), var(--tint);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 3px rgba(0, 0, 0, 0.7), 0 0 14px rgba(var(--tint-rgb), 0.4);
+}
+
+/* liquid glass */
+[data-surface='glass'] .orb::before {
+  opacity: 0.55;
+}
+[data-surface='glass'] .orb::after {
+  background: linear-gradient(rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+[data-surface='glass'] .orb--tint::after {
+  background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(var(--tint-rgb), 0.15)), rgba(var(--tint-rgb), 0.75);
+}
+
+/* ───────────────────────── Edge bar ───────────────────────── */
+.edgebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.edgebar.is-on {
+  opacity: 1;
+}
+.edgebar path {
+  fill: none;
+  stroke: var(--tint);
+  stroke-width: var(--lw, 1.5px);
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+}
+.edgebar__track {
+  opacity: 0.18;
+}
+.edgebar__fill {
+  stroke-linecap: round;
+  stroke-dasharray: 0 1;
+  filter: drop-shadow(0 0 2px var(--tint));
+}
+.edgebar.is-paused .edgebar__fill {
+  opacity: 0.5;
+}

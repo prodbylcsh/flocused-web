@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Flocused · Focus, right where you look</title>
+    <meta name="description" content="Flocused is a focus timer that lives in your MacBook's notch. Native, quiet and precise. Written in Swift." />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta property="og:title" content="Flocused · Focus, right where you look" />
+    <meta property="og:description" content="A focus timer that lives in your MacBook's notch. Native, quiet and precise." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Intro: a black screen that folds itself into the notch -->
+    <div class="loader" aria-hidden="true">
+      <canvas class="loader__matrix"></canvas>
+    </div>
+
+    <!-- The menu bar, with a live Flocused notch in the middle -->
+    <header class="menubar">
+      <div class="edge-host" id="edge-host"></div>
+      <nav class="menubar__inner" aria-label="Main">
+        <div class="menubar__left">
+          <a class="brand" href="#top" aria-label="Flocused home">
+            <img src="/icon-mark.png" alt="" width="18" height="18" />
+            <span>Flocused</span>
+          </a>
+          <a class="menubar__link" href="#styles">Styles</a>
+          <a class="menubar__link" href="#controls">Controls</a>
+          <a class="menubar__link" href="#finishes">Finishes</a>
+          <a class="menubar__link" href="#rhythm">Rhythm</a>
+          <a class="menubar__link" href="#details">Details</a>
+        </div>
+        <div class="menubar__right">
+          <span class="menubar__clock" id="menubar-clock" aria-live="off"></span>
+          <a class="menubar__cta" href="#download">Download</a>
+        </div>
+      </nav>
+      <div class="notch-host" id="live-notch"></div>
+    </header>
+
+    <main id="main">
+      <!-- 00 · Hero -->
+      <section class="hero" id="top" data-theme="dark">
+        <canvas class="hero__gl" aria-hidden="true"></canvas>
+        <div class="hero__vignette" aria-hidden="true"></div>
+
+        <div class="hero__hint" aria-hidden="true">
+          <span class="hero__hint-line"></span>
+          <span class="hero__hint-text">It's live. Point at the notch.</span>
+        </div>
+
+        <div class="hero__content">
+          <p class="eyebrow reveal-up">A focus timer for the MacBook notch</p>
+          <h1 class="hero__title">
+            <span class="line"><span class="word">Focus,</span></span>
+            <span class="line"><em class="word">right where</em></span>
+            <span class="line"><span class="word">you look.</span></span>
+          </h1>
+          <p class="hero__lede reveal-up">
+            Flocused lives in your MacBook's notch. Native, quiet and precise.<br class="br-wide" />
+            No windows, no Dock icon, no distractions.
+          </p>
+          <div class="hero__ctas reveal-up">
+            <a class="btn btn--primary magnetic" href="https://github.com/prodbylcsh/flocused/releases/download/latest/Flocused.zip" data-download>
+              <span class="btn__icon" data-icon="apple"></span>
+              <span>Download for Mac</span>
+            </a>
+            <a class="btn btn--ghost" href="#styles">
+              <span>See how it works</span>
+              <span class="btn__icon" data-icon="arrow"></span>
+            </a>
+          </div>
+          <p class="hero__meta reveal-up">macOS 13 Ventura or later&ensp;·&ensp;Apple Silicon and Intel</p>
+        </div>
+
+        <div class="hero__foot">
+          <div class="hero__status">
+            <span class="status-dot"></span>
+            <span id="hero-status">Demo session</span>
+          </div>
+          <div class="hero__scroll"><span>Scroll</span><i></i></div>
+        </div>
+      </section>
+
+      <!-- 01 · Manifesto -->
+      <section class="manifesto" data-theme="dark">
+        <p class="kicker"><span>01</span>Invisible by design</p>
+        <p class="manifesto__text" data-words>
+          At rest, Flocused is invisible. It matches the notch exactly, down to its curves. Start a session
+          and a thin line of colour wraps around the camera housing, filling as time passes.
+        </p>
+        <p class="manifesto__text manifesto__text--quiet" data-words>
+          Move the pointer onto the notch and it opens into a full set of controls, then folds away the
+          moment you move on.
+        </p>
+      </section>
+
+      <!-- 02 · Styles -->
+      <section class="styles" id="styles" data-theme="dark">
+        <div class="styles__pin">
+          <header class="section-head">
+            <p class="kicker"><span>02</span>Four ways to show time</p>
+            <h2 class="display">Designed around <em>the notch.</em></h2>
+          </header>
+
+          <div class="styles__grid">
+            <ol class="styles__list" role="list">
+              <li>
+                <button class="style-item" data-style="screenEdge">
+                  <span class="style-item__no">01</span>
+                  <span class="style-item__body">
+                    <span class="style-item__name">Edge bar <small>Default</small></span>
+                    <span class="style-item__desc">A hairline of progress along the top of the screen, wrapping tightly around the notch.</span>
+                  </span>
+                  <span class="style-item__use">In use</span>
+                </button>
+              </li>
+              <li>
+                <button class="style-item" data-style="timeAndProgress">
+                  <span class="style-item__no">02</span>
+                  <span class="style-item__body">
+                    <span class="style-item__name">Time and ring</span>
+                    <span class="style-item__desc">A progress ring on one side of the notch and the remaining time on the other.</span>
+                  </span>
+                  <span class="style-item__use">In use</span>
+                </button>
+              </li>
+              <li>
+                <button class="style-item" data-style="filledNotch">
+                  <span class="style-item__no">03</span>
+                  <span class="style-item__body">
+                    <span class="style-item__name">Progress fill</span>
+                    <span class="style-item__desc">The space around the notch fills with colour, with no countdown.</span>
+                  </span>
+                  <span class="style-item__use">In use</span>
+                </button>
+              </li>
+              <li>
+                <button class="style-item" data-style="progressOnly">
+                  <span class="style-item__no">04</span>
+                  <span class="style-item__body">
+                    <span class="style-item__name">Thin line</span>
+                    <span class="style-item__desc">A single line beneath the notch. The most subtle option.</span>
+                  </span>
+                  <span class="style-item__use">In use</span>
+                </button>
+              </li>
+            </ol>
+
+            <div class="device" aria-label="A MacBook screen showing the selected notch style">
+              <div class="device__screen">
+                <div class="wallpaper wallpaper--dusk"></div>
+                <div class="device__menubar">
+                  <span class="device__apple" data-icon="apple"></span>
+                  <b>Xcode</b><span>File</span><span>Edit</span><span>View</span><span class="hide-sm">Find</span><span class="hide-sm">Navigate</span>
+                  <span class="device__spacer"></span>
+                  <span class="hide-sm">100%</span><span class="device__clock" id="device-clock">Fri 09:41</span>
+                </div>
+                <div class="device__edge" id="device-edge"></div>
+                <div class="device__notch" id="device-notch"></div>
+                <div class="device__window">
+                  <div class="device__traffic"><i></i><i></i><i></i></div>
+                  <div class="device__code">
+                    <span style="width: 42%"></span><span style="width: 64%"></span><span class="ind" style="width: 38%"></span>
+                    <span class="ind" style="width: 52%"></span><span class="ind2" style="width: 30%"></span><span class="ind" style="width: 12%"></span>
+                    <span style="width: 8%"></span><span style="width: 0"></span><span style="width: 46%"></span><span class="ind" style="width: 58%"></span>
+                  </div>
+                </div>
+              </div>
+              <p class="device__caption">
+                <span id="style-caption">Edge bar</span>
+                <span class="device__caption-hint">Pick one to use it in the live notch above.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 · Controls -->
+      <section class="controls" id="controls" data-theme="dark">
+        <canvas class="controls__field" aria-hidden="true"></canvas>
+        <div class="controls__inner">
+          <div class="controls__marquee" aria-hidden="true"></div>
+          <header class="section-head section-head--center">
+            <p class="kicker"><span>03</span>Controls on demand</p>
+            <h2 class="display">Point to open.<br /><em>Move on</em> to fold away.</h2>
+            <p class="section-lede">
+              Point at the notch to open play, pause, skip and restart, with the time drawn on a dot-matrix
+              display. Each new interval is announced with a short dot-matrix message.
+            </p>
+          </header>
+
+          <div class="controls__stage">
+            <div class="controls__notch" id="controls-notch"></div>
+            <ul class="callouts" aria-hidden="true">
+              <li style="--x: 8.8%">Restart</li>
+              <li style="--x: 19.8%">Play / pause</li>
+              <li style="--x: 49.6%">Dot-matrix screen</li>
+              <li style="--x: 78.6%">Skip</li>
+              <li style="--x: 91.2%">Settings</li>
+            </ul>
+          </div>
+          <p class="controls__note">The same controls as the notch at the top of the page. Try them.</p>
+        </div>
+      </section>
+
+      <!-- 04 · Finishes -->
+      <section class="finishes" id="finishes" data-theme="light">
+        <header class="section-head">
+          <p class="kicker"><span>04</span>Five finishes</p>
+          <div class="section-head__row">
+            <h2 class="display">One material.<br /><em>Five ways</em> to touch it.</h2>
+            <p class="section-lede">
+              The opened notch, the window and the menu bar panel share one material, with buttons that
+              look raised from the surface.
+            </p>
+          </div>
+        </header>
+
+        <div class="finishes__stage">
+          <div class="wallpaper wallpaper--bloom"></div>
+          <div class="finishes__notch" id="finish-notch"></div>
+          <p class="finishes__desc" id="finish-desc" aria-live="polite"></p>
+        </div>
+
+        <div class="finishes__tabs" role="radiogroup" aria-label="Finish">
+          <button role="radio" data-surface="classic"><i class="sw sw--classic"></i>Classic</button>
+          <button role="radio" data-surface="graphite"><i class="sw sw--graphite"></i>Graphite</button>
+          <button role="radio" data-surface="matte"><i class="sw sw--matte"></i>Soft Matte</button>
+          <button role="radio" data-surface="glossy"><i class="sw sw--glossy"></i>Glossy</button>
+          <button role="radio" data-surface="glass"><i class="sw sw--glass"></i>Liquid Glass</button>
+        </div>
+      </section>
+
+      <!-- 05 · Rhythm -->
+      <section class="rhythm" id="rhythm" data-theme="light">
+        <header class="section-head">
+          <p class="kicker"><span>05</span>Your rhythm</p>
+          <div class="section-head__row">
+            <h2 class="display">Your intervals,<br /><em>drawn to scale.</em></h2>
+            <p class="section-lede">
+              Settings that show, not tell. Every choice is a picture of its result. Change a number and the
+              cycle redraws, and the live notch above follows along.
+            </p>
+          </div>
+        </header>
+
+        <div class="rhythm__panel">
+          <div class="rhythm__viz">
+            <div class="rhythm__total">
+              <span class="rhythm__total-label">One full cycle</span>
+              <span class="rhythm__total-value" id="cycle-total">2 h 10 min</span>
+            </div>
+            <div class="cycle" id="cycle" aria-hidden="true"></div>
+            <div class="cycle__legend">
+              <span><i style="--c: var(--focus)"></i>Focus</span>
+              <span><i style="--c: var(--mint)"></i>Short break</span>
+              <span><i style="--c: var(--iris)"></i>Long break</span>
+            </div>
+          </div>
+
+          <div class="rhythm__controls">
+            <div class="field" data-key="focus">
+              <div class="field__head"><span>Focus</span><output></output></div>
+              <div class="field__row"><div class="chips"></div><div class="stepper"><button data-d="-1" aria-label="Shorter focus">−</button><button data-d="1" aria-label="Longer focus">+</button></div></div>
+              <p class="field__hint">Presets or anything from 1 to 180 minutes</p>
+            </div>
+            <div class="field" data-key="shortBreak">
+              <div class="field__head"><span>Short break</span><output></output></div>
+              <div class="field__row"><div class="chips"></div><div class="stepper"><button data-d="-1" aria-label="Shorter short break">−</button><button data-d="1" aria-label="Longer short break">+</button></div></div>
+              <p class="field__hint">1 to 36 minutes</p>
+            </div>
+            <div class="field" data-key="longBreak">
+              <div class="field__head"><span>Long break</span><output></output></div>
+              <div class="field__row"><div class="chips"></div><div class="stepper"><button data-d="-1" aria-label="Shorter long break">−</button><button data-d="1" aria-label="Longer long break">+</button></div></div>
+              <p class="field__hint">1 to 108 minutes</p>
+            </div>
+            <div class="field" data-key="sets">
+              <div class="field__head"><span>Focus intervals before a long break</span><output></output></div>
+              <div class="field__row"><div class="chips chips--tight"></div></div>
+            </div>
+            <div class="toggles">
+              <label class="toggle"><input type="checkbox" data-key="autoBreaks" /><span class="toggle__ui"></span><span>Start breaks automatically</span></label>
+              <label class="toggle"><input type="checkbox" data-key="autoFocus" /><span class="toggle__ui"></span><span>Start focus automatically</span></label>
+              <label class="toggle"><input type="checkbox" data-key="countSkipped" /><span class="toggle__ui"></span><span>Skipped focus counts toward the long break</span></label>
+            </div>
+            <button class="link-btn" id="rhythm-reset">Restore defaults</button>
+          </div>
+        </div>
+
+        <ul class="facts">
+          <li>
+            <h3>Automatic hand-overs</h3>
+            <p>Breaks can begin the moment focus ends, and focus the moment a break ends.</p>
+          </li>
+          <li>
+            <h3>Skips that count</h3>
+            <p>Choose whether a skipped focus interval brings the long break closer.</p>
+          </li>
+          <li>
+            <h3>Sound for every moment</h3>
+            <p>A separate sound and volume for the start and end of focus, short breaks and long breaks.</p>
+            <div class="sound-chips">
+              <span>Glass</span><span>Hero</span><span>Pop</span><span>Ping</span><span>Blow</span><span>Submarine</span>
+            </div>
+          </li>
+          <li>
+            <h3>Remembered</h3>
+            <p>Whatever you choose becomes the new default. This page remembers yours, too.</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 06 · Details -->
+      <section class="details" id="details" data-theme="dark">
+        <header class="section-head">
+          <p class="kicker"><span>06</span>Thoughtful details</p>
+          <h2 class="display">Quiet on the surface.<br /><em>Careful</em> underneath.</h2>
+        </header>
+
+        <div class="bento">
+          <article class="card card--precise">
+            <div class="card__visual">
+              <canvas class="precise__matrix" id="precise-matrix"></canvas>
+              <div class="precise__rows">
+                <span>Mac asleep</span><span>Clock changed</span><span>App in background</span>
+                <b>Still exact</b>
+              </div>
+            </div>
+            <div class="card__text">
+              <h3>Precise</h3>
+              <p>Time comes from the Mac's monotonic clock, so the timer stays accurate in the background, while the Mac sleeps, and when the system time changes.</p>
+            </div>
+          </article>
+
+          <article class="card card--screens">
+            <div class="card__visual">
+              <div class="mini-screen"><i class="mini-notch"></i></div>
+              <div class="mini-screen mini-screen--ext"><i class="mini-notch mini-notch--sim"></i></div>
+            </div>
+            <div class="card__text">
+              <h3>Every screen</h3>
+              <p>Displays without a notch, such as older Macs and external monitors, get a simulated one with the exact size of the real thing. Visible on every Space and over full-screen apps.</p>
+            </div>
+          </article>
+
+          <article class="card card--menubar">
+            <div class="card__visual">
+              <div class="mini-menubar">
+                <span class="mini-menubar__item"><span data-icon="timer"></span><b id="menubar-mini-time">24:59</b></span>
+                <span class="mini-menubar__dim">Wi‑Fi</span>
+                <span class="mini-menubar__dim">09:41</span>
+              </div>
+            </div>
+            <div class="card__text">
+              <h3>Always at hand</h3>
+              <p>The menu bar shows the remaining time while a timer runs.</p>
+            </div>
+          </article>
+
+          <article class="card card--neighbour">
+            <div class="card__visual">
+              <ul class="neighbours">
+                <li><span>NotchNook</span><button tabindex="-1">Quit</button></li>
+                <li><span>Alcove</span><button tabindex="-1">Quit</button></li>
+                <li><span>boring.notch</span><button tabindex="-1">Quit</button></li>
+              </ul>
+            </div>
+            <div class="card__text">
+              <h3>Good neighbour</h3>
+              <p>Flocused checks at launch for other apps that draw around the notch. It tells you once, and lists them in Settings with a Quit button.</p>
+            </div>
+          </article>
+
+          <article class="card card--window">
+            <div class="card__visual">
+              <div class="mini-window">
+                <div class="device__traffic"><i></i><i></i><i></i></div>
+                <div class="mini-window__bar"><i></i><i class="t"></i><span></span><i></i></div>
+              </div>
+            </div>
+            <div class="card__text">
+              <h3>Prefer a window?</h3>
+              <p>Switch Flocused into a regular window that you can place anywhere.</p>
+            </div>
+          </article>
+
+          <article class="card card--haptics">
+            <div class="card__visual">
+              <div class="pulse"><i></i><i></i><i></i><span></span></div>
+            </div>
+            <div class="card__text">
+              <h3>Feels physical</h3>
+              <p>Light haptic feedback on Force Touch trackpads.</p>
+            </div>
+          </article>
+
+          <article class="card card--login">
+            <div class="card__visual">
+              <label class="toggle toggle--lg"><input type="checkbox" aria-label="Open at login (demo)" /><span class="toggle__ui"></span><span>Open at login</span></label>
+            </div>
+            <div class="card__text">
+              <h3>Opens at login, if you want</h3>
+              <p>Off until you turn it on. macOS confirms it with its own notification, and you can manage it in System Settings at any time.</p>
+            </div>
+          </article>
+
+          <article class="card card--private">
+            <div class="card__visual">
+              <div class="zeros">
+                <div><b>0</b><span>accounts</span></div>
+                <div><b>0</b><span>network requests</span></div>
+                <div><b>0</b><span>analytics</span></div>
+              </div>
+            </div>
+            <div class="card__text">
+              <h3>Private</h3>
+              <p>No accounts, no network access, no analytics. Your settings stay on your Mac.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 07 · Download -->
+      <section class="download" id="download" data-theme="dark">
+        <div class="download__glow" aria-hidden="true"></div>
+        <img class="download__icon" src="/icon-512.png" alt="Flocused app icon" width="168" height="168" loading="lazy" />
+        <h2 class="display display--xl">Make room<br />for <em>focus.</em></h2>
+        <p class="section-lede">Native, quiet and precise. Written in Swift.</p>
+        <a class="btn btn--primary btn--lg magnetic" href="https://github.com/prodbylcsh/flocused/releases/download/latest/Flocused.zip" data-download>
+          <span class="btn__icon" data-icon="download"></span>
+          <span>Download Flocused.zip</span>
+        </a>
+        <p class="hero__meta">macOS 13 Ventura or later&ensp;·&ensp;Apple Silicon and Intel</p>
+
+        <ol class="steps">
+          <li><span>1</span><p><b>Download</b> Flocused.zip and double-click it to unzip.</p></li>
+          <li><span>2</span><p><b>Drag</b> Flocused.app into your Applications folder.</p></li>
+          <li><span>3</span><p><b>Open it.</b> The notch is yours.</p></li>
+        </ol>
+
+        <div class="faq">
+          <details>
+            <summary><span>First launch: macOS can't verify the app</span><i></i></summary>
+            <div class="faq__body">
+              <p>Flocused isn't notarized by Apple yet, so macOS asks you to confirm the first time you open it.</p>
+              <ol>
+                <li>Open Flocused. When macOS says it can't verify the app, click <b>Done</b>.</li>
+                <li>Open <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b> next to Flocused.</li>
+                <li>Confirm with <b>Open Anyway</b>. From then on, Flocused opens normally.</li>
+              </ol>
+              <p>On macOS 13 and 14 you can instead Control-click the app and choose <b>Open</b>, then <b>Open</b>. Repeat these steps whenever you install a newer build.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span>Build from source</span><i></i></summary>
+            <div class="faq__body">
+              <p>Requires a Mac with the Xcode command line tools.</p>
+              <div class="code">
+                <code>bash scripts/build-app.sh</code>
+                <button class="code__copy" data-copy="bash scripts/build-app.sh" aria-label="Copy command"><span data-icon="copy"></span></button>
+              </div>
+              <p>This creates a universal <code>build/Flocused.app</code> and <code>build/Flocused.zip</code>. Every push also builds the app on a Mac build machine and publishes it as the <a href="https://github.com/prodbylcsh/flocused/releases/tag/latest">latest build</a>.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" data-theme="dark">
+      <div class="footer__top">
+        <p class="footer__quote">Made for people who like their tools quiet.</p>
+        <nav class="footer__links" aria-label="Footer">
+          <a href="https://github.com/prodbylcsh/flocused"><span data-icon="github"></span>Source</a>
+          <a href="https://github.com/prodbylcsh/flocused/releases/tag/latest">Releases</a>
+          <a href="#download">Install</a>
+          <a href="#top" class="to-top">Back to top <span data-icon="arrowUp"></span></a>
+        </nav>
+      </div>
+      <div class="footer__mark" aria-hidden="true">
+        <span class="footer__word">Flocused</span>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> Flocused</span>
+        <span>Designed around the notch</span>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
