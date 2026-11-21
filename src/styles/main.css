@@ -481,7 +481,14 @@ html.notch-open .hero__hint {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  padding-right: 0.06em;
+  /* Safari paints background-clip: text only inside the element's box, so the box must
+     reach below the baseline or the descender of the "g" disappears. Negative margins
+     keep the layout unchanged. */
+  display: inline-block;
+  padding: 0.1em 0.08em 0.3em 0.04em;
+  margin: -0.1em -0.08em -0.3em -0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .hero__lede {
   max-width: 560px;
