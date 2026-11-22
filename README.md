@@ -61,3 +61,14 @@ to `main`. To turn it on, open **Settings → Pages** in this repository and set
 [Vite](https://vite.dev), plain JavaScript, [GSAP](https://gsap.com) with ScrollTrigger,
 [Lenis](https://lenis.darkroom.engineering) for smooth scrolling, and self-hosted Instrument Serif,
 Geist and Geist Mono. The site respects `prefers-reduced-motion`.
+
+## Support Flocused
+
+Flocused is free. If it helps you focus, you can support its development:
+
+<p>
+<a href="https://github.com/sponsors/prodbylcsh"><img src="https://img.shields.io/badge/GitHub_Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor on GitHub"></a>
+<a href="https://www.patreon.com/LueCash"><img src="https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white" alt="Support on Patreon"></a>
+<a href="https://ko-fi.com/luecash"><img src="https://img.shields.io/badge/Ko--fi-FF5E5B?style=for-the-badge&logo=kofi&logoColor=white" alt="Support on Ko-fi"></a>
+<a href="https://buymeacoffee.com/luecash"><img src="https://img.shields.io/badge/Buy_Me_a_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee"></a>
+</p>
