@@ -1,7 +1,6 @@
 # flocused-web
 
-The product site for [Flocused](https://github.com/prodbylcsh/flocused), a focus timer that lives in
-the MacBook notch.
+The product site for Flocused, a focus timer for macOS that lives in the MacBook notch.
 
 The site works like the app. Its top bar is a menu bar with a **live Flocused notch** in the
 middle. It runs a real Pomodoro cycle at 60× speed, opens into the full controls when you point at
@@ -20,7 +19,7 @@ same notch: the style you pick, the finish you choose and the intervals you set.
 | Five finishes | Classic, Graphite, Soft Matte, Glossy and Liquid Glass (a real backdrop blur) |
 | Your rhythm | Presets, steppers and switches that redraw one full cycle to scale |
 | Thoughtful details | Bento of the small things: precise clock, every screen, menu bar, privacy |
-| Download | Install steps, the Gatekeeper walkthrough and build-from-source |
+| Download | Install steps and the Gatekeeper walkthrough |
 
 The notch is a port of the app's own code, not a lookalike:
 
@@ -64,7 +63,8 @@ Geist and Geist Mono. The site respects `prefers-reduced-motion`.
 
 ## Support Flocused
 
-Flocused is free. If it helps you focus, you can support its development:
+If Flocused has brought value to your work and your focus, you can say thanks and help fund
+its continued development with a donation:
 
 <p>
 <a href="https://github.com/sponsors/prodbylcsh"><img src="https://img.shields.io/badge/GitHub_Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor on GitHub"></a>

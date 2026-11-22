@@ -350,27 +350,6 @@ html:not(.is-loading) .loader {
 .menubar__cta:hover {
   transform: scale(1.04);
 }
-.menubar__gh {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 6px;
-  padding: 3px 11px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
-  color: #000;
-  font-weight: 600;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
-  transition: transform 0.2s var(--ease), background-color 0.2s;
-}
-.menubar__gh:hover {
-  transform: scale(1.04);
-  background: rgba(255, 255, 255, 0.8);
-}
-.menubar__gh svg {
-  flex: none;
-  display: block;
-}
 .notch-host {
   position: absolute;
   top: 0;
@@ -1964,20 +1943,13 @@ html.notch-open .hero__hint {
   .hide-sm {
     display: none;
   }
-  .menubar__gh span {
-    display: none;
-  }
-  .menubar__gh {
-    padding: 4px 7px;
-  }
 }
 @media (max-width: 640px) {
   :root {
     --menubar-h: 30px;
   }
   .brand span,
-  .menubar__clock,
-  .menubar__gh {
+  .menubar__clock {
     display: none;
   }
   .menubar__inner {
